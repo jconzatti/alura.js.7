@@ -48,7 +48,8 @@ main {
 
 
 header {
-  padding: 112px 240px 112px 360px;
+  padding: 112px 40px;
+  /*padding: 112px 240px 112px 360px;*/
   background: var(--Azul-Dark, #041832);
 }
 
