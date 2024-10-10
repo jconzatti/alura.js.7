@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () =>{
 
     const lElementoFormularioDePensamento = document.getElementById("pensamento-form");
     lElementoFormularioDePensamento.addEventListener("submit", submeterFormularioDoPensamento);
+    const lElementoCancelarPensamento = document.getElementById("botao-cancelar");
+    lElementoCancelarPensamento.addEventListener("click", cancelarPensamentoDoFormulario);
 });
 
 async function submeterFormularioDoPensamento(pEvento){
@@ -20,4 +22,10 @@ async function submeterFormularioDoPensamento(pEvento){
         alert(`Erro ao salvar pensamento! ${lErro.name}: ${lErro.message}`); 
         throw lErro; 
     }
+}
+
+async function cancelarPensamentoDoFormulario(){
+    document.getElementById("pensamento-id").value = "";
+    document.getElementById("pensamento-conteudo").value = "";
+    document.getElementById("pensamento-autoria").value = "";
 }
