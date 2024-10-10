@@ -24,8 +24,9 @@ async function submeterFormularioDoPensamento(pEvento){
     }
 }
 
-async function cancelarPensamentoDoFormulario(){
-    document.getElementById("pensamento-id").value = "";
-    document.getElementById("pensamento-conteudo").value = "";
-    document.getElementById("pensamento-autoria").value = "";
+function cancelarPensamentoDoFormulario(){
+    document.getElementById("pensamento-form").reset();
+    //document.getElementById("pensamento-id").value = "";
+    //document.getElementById("pensamento-conteudo").value = "";
+    //document.getElementById("pensamento-autoria").value = "";
 }
