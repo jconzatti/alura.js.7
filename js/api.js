@@ -56,6 +56,16 @@ const api = {
             throw lErro;   
         }
 
+    },
+
+    async excluirPensamento(pIDDoPensamento){
+        try {
+            await fetch(`http://localhost:3000/pensamentos/${pIDDoPensamento}`, {method: "DELETE"});
+        } catch (lErro) {
+            alert(`Erro ao excluir pensamento! ${lErro.name}: ${lErro.message}`); 
+            throw lErro;   
+        }
+
     }
 }
 
