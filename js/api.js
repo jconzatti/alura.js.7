@@ -1,7 +1,8 @@
+const URL_BASE = "http://localhost:3000";
 const api = {
     async obterPensamentos(){
         try {
-            const lRespostaDePensamentos = await fetch("http://localhost:3000/pensamentos");
+            const lRespostaDePensamentos = await fetch(`${URL_BASE}/pensamentos`);
             return await lRespostaDePensamentos.json();
         } catch (lErro) {
             alert(`Erro ao buscar seus pensamentos! ${lErro.name}: ${lErro.message}`); 
@@ -11,7 +12,7 @@ const api = {
 
     async obterPensamento(pIDDoPensamento){
         try {
-            const lRespostaDePensamentos = await fetch(`http://localhost:3000/pensamentos/${pIDDoPensamento}`);
+            const lRespostaDePensamentos = await fetch(`${URL_BASE}/pensamentos/${pIDDoPensamento}`);
             return await lRespostaDePensamentos.json();
         } catch (lErro) {
             alert(`Erro ao buscar o pensamento (id ${pIDDoPensamento})! ${lErro.name}: ${lErro.message}`); 
@@ -22,7 +23,7 @@ const api = {
     async salvarPensamento(pPensamento){
         try {
             const lRespostaDePensamentos = await fetch(
-                "http://localhost:3000/pensamentos",
+                `${URL_BASE}/pensamentos`,
                 {
                     method: "POST",
                     headers: {
@@ -41,7 +42,7 @@ const api = {
     async atualizarPensamento(pPensamento){
         try {
             const lRespostaDePensamentos = await fetch(
-                `http://localhost:3000/pensamentos/${pPensamento.id}`,
+                `${URL_BASE}/pensamentos/${pPensamento.id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -60,7 +61,7 @@ const api = {
 
     async excluirPensamento(pIDDoPensamento){
         try {
-            await fetch(`http://localhost:3000/pensamentos/${pIDDoPensamento}`, {method: "DELETE"});
+            await fetch(`${URL_BASE}/pensamentos/${pIDDoPensamento}`, {method: "DELETE"});
         } catch (lErro) {
             alert(`Erro ao excluir pensamento! ${lErro.name}: ${lErro.message}`); 
             throw lErro;   
