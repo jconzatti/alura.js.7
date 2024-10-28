@@ -1,12 +1,16 @@
 import api from "./api.js"
 
 const ui = {
-    async renderizarPensamentos(){
-        const lElementoListaDePensamentos = document.getElementById("lista-pensamentos");
-        lElementoListaDePensamentos.innerHTML = "";
+    async renderizarMuralDePensamentos(){
+        const lElementoConteinerDoMuralDePensamentos = document.getElementById("lista-pensamentos-container");
+        lElementoConteinerDoMuralDePensamentos.innerHTML = "<h3>Meu Mural</h3>";
         try {
-            const lPensamentos = await api.obterPensamentos();    
-            lPensamentos.forEach(adicionarPensamentoNaLista);
+            const lPensamentos = await api.obterPensamentos();  
+            if (lPensamentos.length > 0){
+                renderizarListaDePensamentosNoMural(lElementoConteinerDoMuralDePensamentos, lPensamentos);
+            } else {
+                renderizarMuralSemPensamentos(lElementoConteinerDoMuralDePensamentos);
+            }
         } catch (lErro) {
             alert(`Erro ao renderizar seus pensamentos! ${lErro.name}: ${lErro.message}`); 
             throw lErro;   
@@ -24,7 +28,7 @@ const ui = {
             } else {
                 await api.salvarPensamento({conteudo: lConteudo, autoria: lAutoria});
             } 
-            ui.renderizarPensamentos();  
+            ui.renderizarMuralDePensamentos();  
         } catch (lErro) {
             alert(`Erro ao salvar pensamento! ${lErro.name}: ${lErro.message}`); 
             throw lErro; 
@@ -36,9 +40,16 @@ const ui = {
     }
 }
 
-function adicionarPensamentoNaLista(pPensamento){
-    const lElementoListaDePensamentos = document.getElementById("lista-pensamentos");
+function renderizarListaDePensamentosNoMural(pElementoConteinerDoMuralDePensamentos, pPensamentos){
+    const lElementoListaDePensamentos = document.createElement("ul");
+    lElementoListaDePensamentos.id = "lista-pensamentos"; 
+    pElementoConteinerDoMuralDePensamentos.appendChild(lElementoListaDePensamentos); 
+    pPensamentos.forEach((lPensamento) => {
+        adicionarPensamentoNaLista(lElementoListaDePensamentos, lPensamento)
+    });
+}
 
+function adicionarPensamentoNaLista(pElementoListaDePensamentos, pPensamento){
     const lElementoItemDaListaDePensamentos = document.createElement("li");
     lElementoItemDaListaDePensamentos.setAttribute("data-id", pPensamento.id);
     lElementoItemDaListaDePensamentos.classList.add("li-pensamento");
@@ -73,7 +84,7 @@ function adicionarPensamentoNaLista(pPensamento){
     lElementoBotaoExcluirPensamento.onclick = async () => {
         try {
             await api.excluirPensamento(pPensamento.id);
-            ui.renderizarPensamentos();  
+            ui.renderizarMuralDePensamentos();  
         } catch (lErro) {
             alert(lErro.message); 
             throw lErro; 
@@ -94,7 +105,18 @@ function adicionarPensamentoNaLista(pPensamento){
     lElementoItemDaListaDePensamentos.appendChild(lElementoConteudoDoPensamento);
     lElementoItemDaListaDePensamentos.appendChild(lElementoAutoriaDoPensamento);
     lElementoItemDaListaDePensamentos.appendChild(lElementoConteinerDasAcoesDoPensamento);
-    lElementoListaDePensamentos.appendChild(lElementoItemDaListaDePensamentos);
+    pElementoListaDePensamentos.appendChild(lElementoItemDaListaDePensamentos);
+}
+
+function renderizarMuralSemPensamentos(pElementoConteinerDoMuralDePensamentos){
+    const lElementoPagragrafoNenhumPensamento = document.createElement("p");
+    lElementoPagragrafoNenhumPensamento.textContent = "Nada por aqui ainda, que tal compartilhar alguma ideia?";
+    pElementoConteinerDoMuralDePensamentos.appendChild(lElementoPagragrafoNenhumPensamento);
+
+    const lElementoImagemNenhumPensamento = document.createElement("img");
+    lElementoImagemNenhumPensamento.src = "assets/imagens/lista-vazia.png";
+    lElementoImagemNenhumPensamento.alt = "Lista vazia";
+    pElementoConteinerDoMuralDePensamentos.appendChild(lElementoImagemNenhumPensamento);
 }
 
 function limparFormularioDoPensamento(){
